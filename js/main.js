@@ -14,10 +14,16 @@ let users = JSON.parse(localStorage.getItem("users")) || [
         password: "12345678",
         fullName: "Hoàng Dương Nam",
         phoneNumber: "0899769862",
-        role: "User",
+        role: "Admin",
         createdAt: "08-09-2025"
     }
 ];
+
+if (!localStorage.getItem("users")) {
+    localStorage.setItem("users", JSON.stringify(users))
+} else {
+    users = JSON.parse(localStorage.getItem("users"))
+}
 
 function updateData() {
     localStorage.setItem("users", JSON.stringify(users));
@@ -90,12 +96,13 @@ function register(e) {
 
     if (confirm) {
         users.push({
-            id: users.length + 1,   
+            id: users.length + 1,
             email: email,
             fullName: fullName,
             role: "User",
             phoneNumber: phoneNumber,
             password: passwordInput,
+            createdAt: new Date().toLocaleDateString()
         });
 
         alert("Đã thêm tài khoản thành công");
@@ -141,8 +148,22 @@ function login(e) {
             return;
         }
         localStorage.setItem("currentUser", JSON.stringify(user));
+        if (user.role === "Admin") {
+            localStorage.setItem("isAdmin", "true");
+        } else {
+            localStorage.removeItem("isAdmin");
+        }
 
-        alert("Đăng nhập thành công!");
-        window.location.assign("http://127.0.0.1:5500/index.html");
+            alert("Đăng nhập thành công!");
+            window.location.assign("http://127.0.0.1:5500/index.html");
+
     }
 }
+window.addEventListener("DOMContentLoaded", () => {
+    const isAdmin = localStorage.getItem("isAdmin");
+    const adminBtn = document.getElementById("adminBtn");
+
+    if (isAdmin === "true" && adminBtn) {
+        adminBtn.style.display = "inline";
+    }
+});

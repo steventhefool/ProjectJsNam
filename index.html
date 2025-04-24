@@ -1,11 +1,13 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Gym Management System</title>
     <link rel="stylesheet" href="/css/main.css">
 </head>
+
 <body>
     <header>
         <div class="header">
@@ -13,10 +15,13 @@
             <div class="nav">
                 <span>Trang chủ</span>
                 <span>Lịch tập</span>
-                <span>Đăng nhập</span>
+                <span onclick="window.location.href=`pages/auth/login.html`">Đăng nhập</span>
+                <span id="adminBtn" style="display: none;"
+                    onclick="window.location.href='pages/admin/dashboard.html'">Admin</span>
             </div>
         </div>
     </header>
     <script src="./js/main.js"></script>
 </body>
+
 </html>
