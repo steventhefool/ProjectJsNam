@@ -14,11 +14,11 @@ document.querySelectorAll('nav a').forEach(link => {
 });
 
 function openBookingForm(booking = null, index = null, selectedClass = ``) {
-    // if (isLoggedIn) {
-    //     alert('Bạn cần đăng nhập để đặt lịch!');
-    //     window.location.href = 'pages/auth/login.html';
-    //     return;
-    // }
+    if (isLoggedIn) {
+        alert('Bạn cần đăng nhập để đặt lịch!');
+        window.location.href = 'pages/auth/login.html';
+        return;
+    }
     isEditing = booking ? true : false;
     editingIndex = index;
 
@@ -205,6 +205,4 @@ function createSampleData() {
 window.addEventListener('DOMContentLoaded', () => {
     createSampleData();
     loadBookings();
-
-
 });

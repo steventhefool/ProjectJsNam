@@ -82,9 +82,9 @@
             <div class="nav" style="margin: 10px 20px;">
                 <span onclick="window.location.href=`/index.html`" class="navi">Trang chủ</span>
                 <span onclick="window.location.href=`pages/booking/schedule.html`" class="navi">Lịch tập</span>
-                <span onclick="window.location.href=`pages/auth/login.html`" class="navi">Đăng nhập</span>
+                <span onclick="window.location.href=`pages/auth/login.html`" class="navi loginLogout" >Đăng nhập</span>
                 <span id="adminBtn" onclick="window.location.href='pages/admin/dashboard.html'"
-                    style="display:  none;">Admin</span>
+                    style="display:  none;" class="navi">Admin</span>
             </div>
         </div>
     </header>
@@ -110,25 +110,42 @@
                     <div class="card">
                       <h3>Gym</h3>
                       <p>Tập luyện với các thiết bị hiện đại</p>
-                      <button onclick="openBookingForm('Gym')">Đặt lịch</button>
+                      <button onclick="window.location.href=`pages/booking/schedule.html`">Đặt lịch</button>
                     </div>
                 
                     <div class="card">
                       <h3>Yoga</h3>
                       <p>Thư giãn và cân bằng tâm trí</p>
-                      <button onclick="openBookingForm('Yoga')">Đặt lịch</button>
+                      <button onclick="window.location.href=`pages/booking/schedule.html`">Đặt lịch</button>
                     </div>
                 
                     <div class="card">
                       <h3>Zumba</h3>
                       <p>Đốt cháy calories với những điệu nhảy sôi động</p>
-                      <button onclick="openBookingForm('Zumba')">Đặt lịch</button>
+                      <button onclick="window.location.href=`pages/booking/schedule.html`">Đặt lịch</button>
                     </div>
                   </div>
             </div>
         </div>
     </main>
-
+    <script>
+        window.onload = function() {
+            const isLoggedIn = localStorage.getItem("isLoggedIn") === "true";
+            if (isLoggedIn) {
+                const loginLogoutBtn = document.querySelector(".loginLogout");
+                if (loginLogoutBtn) {
+                    loginLogoutBtn.textContent = "Đăng xuất";
+                    loginLogoutBtn.onclick = function() {
+                        localStorage.removeItem("currentUser");
+                        localStorage.removeItem("isLoggedIn");
+                        localStorage.removeItem("isAdmin");
+                        alert("Đăng xuất thành công!");
+                        window.location.href = "/index.html";
+                    };
+                }
+            }
+        };
+    </script>
     <script src="./js/main.js"></script>
     <script src="./js/booking.js"></script>
 </body>

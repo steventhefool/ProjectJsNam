@@ -157,7 +157,7 @@ function login(e) {
 
             alert("Đăng nhập thành công!");
             window.location.assign("http://127.0.0.1:5500/index.html");
-
+        
     }
 }
 window.addEventListener("DOMContentLoaded", () => {
@@ -190,10 +190,5 @@ function renderBookings() {
         `;
         tbody.appendChild(tr);
     });
-}
-
-function validateEmail(email) {
-    const regex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
-    return regex.test(email);
 }
 
