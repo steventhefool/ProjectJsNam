@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Trang đặt lịch</title>
+    <style>
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background: #2c2c2c;
+        }
+        nav {
+            background-color: #1f2937;
+            color: white;
+            padding: 1rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        nav .menu a {
+            color: white;
+            margin-left: 1.5rem;
+            text-decoration: none;
+        }
+        main {
+            background: #f9fafb;
+            margin: 2rem;
+            padding: 2rem;
+            border-radius: 8px;
+        }
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        button {
+            background-color: #3b82f6;
+            border: none;
+            padding: 0.5rem 1rem;
+            color: white;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        table {
+            width: 100%;
+            margin-top: 1.5rem;
+            border-collapse: collapse;
+        }
+        th, td {
+            padding: 1rem;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+        }
+        th {
+            background-color: #f1f5f9;
+        }
+    </style>
+</head>
+<body>
+    <nav>
+        <div class="logo">GYM MANAGEMENT</div>
+        <div class="menu">
+            <a href="/index.html">Trang chủ</a>
+            <a href="">Lịch tập</a>
+        </div>
+    </nav>
+
+    <main>
+        <div class="header">
+            <h2>Quản lý lịch tập</h2>
+            <button onclick="openBookingForm()">Đặt lịch mới</button>
+        </div>
+
+        <table>
+            <thead>
+                <tr>
+                    <th>Lớp học</th>
+                    <th>Ngày tập</th>
+                    <th>Khung giờ</th>
+                    <th>Họ tên</th>
+                    <th>Email</th>
+                    <th>Thao tác</th>
+                </tr>
+            </thead>
+            <tbody id="bookingList">
+
+            </tbody>
+        </table>
+    </main>
+
+    <script src="/js/booking.js"></script>
+</body>
+</html>

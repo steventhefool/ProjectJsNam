@@ -167,3 +167,32 @@ window.addEventListener("DOMContentLoaded", () => {
         adminBtn.style.display = "inline";
     }
 });
+let bookings = JSON.parse(localStorage.getItem("bookings")) || [];
+
+function updateBookings() {
+    localStorage.setItem("bookings", JSON.stringify(bookings));
+    renderBookings();
+}
+
+function renderBookings() {
+    const tbody = document.querySelector("#bookingTable tbody");
+    tbody.innerHTML = "";
+    bookings.forEach((booking, index) => {
+        const tr = document.createElement("tr");
+        tr.innerHTML = `
+            <td>${index + 1}</td>
+            <td>${booking.classType}</td>
+            <td>${booking.date}</td>
+            <td>${booking.timeSlot}</td>
+            <td>${booking.fullName}</td>
+            <td>${booking.email}</td>
+        `;
+        tbody.appendChild(tr);
+    });
+}
+
+function validateEmail(email) {
+    const regex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+    return regex.test(email);
+}
+
