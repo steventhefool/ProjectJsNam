@@ -24,7 +24,7 @@ if (!localStorage.getItem("users")) {
 } else {
     users = JSON.parse(localStorage.getItem("users"))
 }
-
+let isLoggedIn = false;
 function updateData() {
     localStorage.setItem("users", JSON.stringify(users));
 }
@@ -124,12 +124,12 @@ function login(e) {
 
     let confirm = true;
 
-    if (email === ``) {
+    if (email == ``) {
         document.querySelector(".errorLoginEmail").textContent = `Email không được để trống`;
         confirm = false;
     }
 
-    if (password === ``) {
+    if (password == ``) {
         document.querySelector(".errorLoginPass").textContent = `Mật khẩu không được để trống`;
         confirm = false;
     }
@@ -148,6 +148,7 @@ function login(e) {
             return;
         }
         localStorage.setItem("currentUser", JSON.stringify(user));
+        localStorage.setItem("isLoggedIn", "true");
         if (user.role === "Admin") {
             localStorage.setItem("isAdmin", "true");
         } else {
