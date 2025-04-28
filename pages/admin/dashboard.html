@@ -6,7 +6,89 @@
     <title>Admin</title>
 </head>
 <body>
-    admin nhe
+    <!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Dashboard</title>
+    <style>
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background-color: #f4f6f8;
+        }
+        header {
+            background-color: #2c3e50;
+            color: white;
+            padding: 1rem;
+            text-align: center;
+        }
+        nav {
+            width: 200px;
+            background-color: #34495e;
+            position: fixed;
+            height: 100%;
+            padding-top: 20px;
+        }
+        nav a {
+            display: block;
+            color: white;
+            padding: 12px;
+            text-decoration: none;
+        }
+        nav a:hover {
+            background-color: #1abc9c;
+        }
+        main {
+            margin-left: 220px;
+            padding: 20px;
+        }
+        .card {
+            background: white;
+            padding: 20px;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            border-radius: 8px;
+        }
+    </style>
+</head>
+<body>
+
+<header>
+    <h1>Trang Admin</h1>
+</header>
+
+<nav>
+    <a href="#">Bảng điều khiển</a>
+    <a href="#">Quản lý người dùng</a>
+    <a href="#">Quản lý sản phẩm</a>
+    <a href="#">Đơn hàng</a>
+    <a href="#">Cài đặt</a>
+    <a href="#">Đăng xuất</a>
+</nav>
+
+<main>
+    <div class="card">
+        <h2>Thống kê nhanh</h2>
+        <p>Người dùng: 150</p>
+        <p>Sản phẩm: 320</p>
+        <p>Đơn hàng hôm nay: 45</p>
+    </div>
+
+    <div class="card">
+        <h2>Hoạt động gần đây</h2>
+        <ul>
+            <li>Admin đã thêm sản phẩm mới.</li>
+            <li>Người dùng A đã đặt đơn hàng.</li>
+            <li>Admin đã cập nhật giá sản phẩm B.</li>
+        </ul>
+    </div>
+</main>
+
+</body>
+</html>
+
     <script src="/js/admin.js"></script>
 </body>
 </html>
