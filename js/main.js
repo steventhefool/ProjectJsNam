@@ -7,6 +7,7 @@ function validateEmail(email) {
     return regex.test(email);
 }
 
+
 let users = JSON.parse(localStorage.getItem("users")) || [
     {
         id: 1,
@@ -151,10 +152,7 @@ function login(e) {
         localStorage.setItem("isLoggedIn", "true");
         if (user.role === "Admin") {
             localStorage.setItem("isAdmin", "true");
-        } else {
-            localStorage.removeItem("isAdmin");
         }
-
             alert("Đăng nhập thành công!");
             window.location.assign("http://127.0.0.1:5500/index.html");
         

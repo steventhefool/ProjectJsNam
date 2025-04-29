@@ -81,17 +81,18 @@
             <div style="margin: 10px 20px;"><b>GYM Management</b></div>
             <div class="nav" style="margin: 10px 20px;">
                 <span onclick="window.location.href=`/index.html`" class="navi">Trang chủ</span>
-                <span onclick="window.location.href=`pages/booking/schedule.html`" class="navi">Lịch tập</span>
-                <span onclick="window.location.href=`pages/auth/login.html`" class="navi loginLogout" >Đăng nhập</span>
-                <span id="adminBtn" onclick="window.location.href='pages/admin/dashboard.html'"
-                    style="display:  none;" class="navi">Admin</span>
+                <span onclick="checkLogin()" class="navi">Lịch tập</span>
+                <span onclick="window.location.href=`pages/auth/login.html`" class="navi loginLogout">Đăng nhập</span>
+                <span id="adminBtn" onclick="window.location.href='pages/admin/dashboard.html'" style="display:  none;"
+                    class="navi">Admin</span>
             </div>
         </div>
     </header>
     <main>
         <div style="position: relative;">
             <img src="./Ảnh.png" alt="" width="100%" height="745.9px">
-            <div style="position: absolute; top: 40%; left: 50%; transform: translate(-50%, -50%); color: white; text-align: center;">
+            <div
+                style="position: absolute; top: 40%; left: 50%; transform: translate(-50%, -50%); color: white; text-align: center;">
                 <h3 style="font-size: 70px;">Welcome to Our Gym</h3>
                 <span style="font-size: 30px; padding-top: 10px; display: block;">
                     Transform Your Body, Transform Your Life
@@ -100,7 +101,7 @@
                     Bắt đầu ngay
                 </button>
             </div>
-            <div style="background-color: #F9FAFB;">
+            <div style="background-color: #F9FAFB; padding-bottom: 2%;">
                 <div style="text-align: center; padding: 30px;">
                     <span style="font-size: 40px; font-weight: bold;">
                         Các lớp học phổ biến
@@ -108,34 +109,66 @@
                 </div>
                 <div class="card-container">
                     <div class="card">
-                      <h3>Gym</h3>
-                      <p>Tập luyện với các thiết bị hiện đại</p>
-                      <button onclick="window.location.href=`pages/booking/schedule.html`">Đặt lịch</button>
+                        <h3>Gym</h3>
+                        <p>Tập luyện với các thiết bị hiện đại</p>
+                        <button onclick="checkLogin()">Đặt lịch</button>
                     </div>
-                
+
                     <div class="card">
-                      <h3>Yoga</h3>
-                      <p>Thư giãn và cân bằng tâm trí</p>
-                      <button onclick="window.location.href=`pages/booking/schedule.html`">Đặt lịch</button>
+                        <h3>Yoga</h3>
+                        <p>Thư giãn và cân bằng tâm trí</p>
+                        <button onclick="checkLogin()">Đặt lịch</button>
                     </div>
-                
+
                     <div class="card">
-                      <h3>Zumba</h3>
-                      <p>Đốt cháy calories với những điệu nhảy sôi động</p>
-                      <button onclick="window.location.href=`pages/booking/schedule.html`">Đặt lịch</button>
+                        <h3>Zumba</h3>
+                        <p>Đốt cháy calories với những điệu nhảy sôi động</p>
+                        <button onclick="checkLogin()">Đặt lịch</button>
                     </div>
-                  </div>
+
+                </div>
             </div>
         </div>
     </main>
+    <footer>
+        <div style="background-color: #1f2937; color: white;">
+            <div style="display: flex; padding-left: 5px;">
+                <div style="width: 30%; padding-left: 10% ;padding-top: 2%;">
+                    <h3>Về chúng tôi</h3>
+                    <span>Gym Management - Nơi bạn bắt đầu hành trình fitness của mình với các trang thiết bị hiện đại
+                        và đội ngũ huấn luyện viên chuyên nghiệp</span>
+                </div>
+                <div style="width: 30%; padding-left: 10%; padding-top: 2%;">
+                    <h3>Liên hệ</h3>
+                    <span></span>
+                </div>
+                <div style="width: 30%; padding-left: 10% ;padding-top: 2%;">
+                    <h3>Theo dõi chúng tôi</h3>
+                    <span></span>
+                </div>
+            </div>
+            <div style="border-bottom: 1px solid purple; width: 80%; margin: 10px auto 0;"></div>
+            <div style="text-align: center; padding: 2% ;">
+                <span>&copy; 2024 Gym Management. All Rights Reserved</span>
+            </div>
+        </div>
+
+    </footer>
     <script>
-        window.onload = function() {
+        window.onload = function () {
             const isLoggedIn = localStorage.getItem("isLoggedIn") === "true";
+
+            //Xử lý nút button bắt đầu ngay
+            const startButton = document.getElementById('start');
+            if (isLoggedIn && startButton) {
+                startButton.style.display = 'none';
+            }
+            //Xử lý thẻ span đăng nhập/đăng xuất
             if (isLoggedIn) {
                 const loginLogoutBtn = document.querySelector(".loginLogout");
                 if (loginLogoutBtn) {
                     loginLogoutBtn.textContent = "Đăng xuất";
-                    loginLogoutBtn.onclick = function() {
+                    loginLogoutBtn.onclick = function () {
                         localStorage.removeItem("currentUser");
                         localStorage.removeItem("isLoggedIn");
                         localStorage.removeItem("isAdmin");
@@ -145,9 +178,24 @@
                 }
             }
         };
+
     </script>
     <script src="./js/main.js"></script>
     <script src="./js/booking.js"></script>
+    <script>
+        function checkLogin() {
+            const isLoggedIn = localStorage.getItem('isLoggedIn') === 'true';
+            if (!isLoggedIn) {
+                alert('Bạn cần đăng nhập để đặt lịch!');
+                window.location.href = '/pages/auth/login.html';
+                return;
+            } else {
+                window.location.href = '/pages/booking/schedule.html';
+                return;
+            }
+        }
+    </script>
+
 </body>
 
 </html>

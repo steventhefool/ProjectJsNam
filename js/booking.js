@@ -1,6 +1,10 @@
 let isEditing = false;
 let editingIndex = null;
-
+let isLoggedIn = false;
+function validateEmail(email) {
+    const regex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+    return regex.test(email);
+}
 document.querySelectorAll('nav a').forEach(link => {
     link.addEventListener('click', e => {
         e.preventDefault();
@@ -14,9 +18,10 @@ document.querySelectorAll('nav a').forEach(link => {
 });
 
 function openBookingForm(booking = null, index = null, selectedClass = ``) {
+    
     if (isLoggedIn) {
         alert('Bạn cần đăng nhập để đặt lịch!');
-        window.location.href = 'pages/auth/login.html';
+        window.location.href = '/pages/auth/login.html';
         return;
     }
     isEditing = booking ? true : false;
@@ -82,6 +87,7 @@ function openBookingForm(booking = null, index = null, selectedClass = ``) {
 
     document.getElementById('bookingForm').addEventListener('submit', saveBooking);
 }
+
 
 function closeBookingForm() {
     const modal = document.getElementById('bookingModal');
