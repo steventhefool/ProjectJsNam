@@ -1,10 +1,16 @@
 let isEditing = false;
 let editingIndex = null;
 let isLoggedIn = false;
+
+function getCurrentUserId() {
+    return isLoggedIn ? 'user123' : 'guest';
+}
+
 function validateEmail(email) {
     const regex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
     return regex.test(email);
 }
+
 document.querySelectorAll('nav a').forEach(link => {
     link.addEventListener('click', e => {
         e.preventDefault();
@@ -17,13 +23,7 @@ document.querySelectorAll('nav a').forEach(link => {
     });
 });
 
-function openBookingForm(booking = null, index = null, selectedClass = ``) {
-    
-    if (isLoggedIn) {
-        alert('Bạn cần đăng nhập để đặt lịch!');
-        window.location.href = '/pages/auth/login.html';
-        return;
-    }
+function openBookingForm(booking = null, index = null) {
     isEditing = booking ? true : false;
     editingIndex = index;
 
@@ -73,6 +73,7 @@ function openBookingForm(booking = null, index = null, selectedClass = ``) {
         </div>
     </div>
     `;
+
     const div = document.createElement('div');
     div.innerHTML = modalHTML;
     document.body.appendChild(div);
@@ -95,7 +96,6 @@ function closeBookingForm() {
 }
 
 function showError(message) {
-    console.log (message)
     const errorBox = document.getElementById('errorBox');
     if (errorBox) {
         errorBox.innerText = message;
@@ -110,8 +110,15 @@ function saveBooking(e) {
         date: document.getElementById('dateInput').value,
         time: document.getElementById('timeSelect').value,
         fullName: document.getElementById('fullName').value.trim(),
-        email: document.getElementById('emailInput').value.trim()
+        email: document.getElementById('emailInput').value.trim(),
+        status: `chưa`,
     };
+
+    if (!newBooking.createdAt) {
+        newBooking.createdAt = new Date().toISOString().split('T')[0];
+    }
+
+    newBooking.updatedAt = new Date().toISOString().split('T')[0];
 
     if (!newBooking.class || !newBooking.date || !newBooking.time || !newBooking.fullName || !newBooking.email) {
         showError("Vui lòng điền đầy đủ thông tin!");
@@ -138,6 +145,10 @@ function saveBooking(e) {
 }
 
 
+function generateUniqueId() {
+    return 'bk_' + Date.now().toString(36) + Math.random().toString(36).substr(2, 5);
+}
+
 function loadBookings() {
     const bookingList = document.getElementById('bookingList');
     bookingList.innerHTML = '';
@@ -145,6 +156,9 @@ function loadBookings() {
     const bookings = JSON.parse(localStorage.getItem('bookings')) || [];
 
     bookings.forEach((booking, index) => {
+        const createdAt = booking.createdAt ? booking.createdAt.split('T')[0] : '';
+        const updatedAt = booking.updatedAt ? booking.updatedAt.split('T')[0] : '';
+
         const tr = document.createElement('tr');
         tr.innerHTML = `
             <td>${booking.class}</td>
@@ -152,6 +166,9 @@ function loadBookings() {
             <td>${booking.time}</td>
             <td>${booking.fullName}</td>
             <td>${booking.email}</td>
+            <td>${booking.status}</td>
+            <td>${createdAt}</td>
+            <td>${updatedAt}</td>
             <td>
                 <button onclick="editBooking(${index})" style="background:#3b82f6;color:white;border:none;padding:0.3rem 0.6rem;border-radius:5px;">Sửa</button>
                 <button onclick="confirmDeleteBooking(${index})" style="background:red;color:white;border:none;padding:0.3rem 0.6rem;border-radius:5px;margin-left:5px;">Xóa</button>
@@ -161,11 +178,12 @@ function loadBookings() {
     });
 }
 
+
+
 function editBooking(index) {
     const bookings = JSON.parse(localStorage.getItem('bookings')) || [];
     openBookingForm(bookings[index], index);
 }
-
 
 function confirmDeleteBooking(index) {
     const confirmHTML = `
@@ -189,7 +207,6 @@ function closeConfirmModal() {
     if (modal) modal.parentElement.removeChild(modal);
 }
 
-
 function deleteBooking(index) {
     let bookings = JSON.parse(localStorage.getItem('bookings')) || [];
     bookings.splice(index, 1);
@@ -201,8 +218,28 @@ function deleteBooking(index) {
 function createSampleData() {
     if (!localStorage.getItem('bookings')) {
         const sampleBookings = [
-            { class: "Gym", date: "2025-05-01", time: "06:00 - 07:00", fullName: "Nguyễn Văn A", email: "a@gmail.com" },
-            { class: "Yoga", date: "2025-05-02", time: "17:00 - 18:00", fullName: "Trần Thị B", email: "b@gmail.com" },
+            { 
+                class: "Gym", 
+                date: "2025-05-01", 
+                time: "06:00 - 07:00", 
+                fullName: "Nguyễn Văn A", 
+                email: "a@gmail.com", 
+                userId: 'user123', 
+                status: 'Chưa', 
+                createdAt: new Date().toISOString().split('T')[0],
+                updatedAt: new Date().toISOString().split('T')[0] 
+            },
+            { 
+                class: "Yoga", 
+                date: "2025-05-02", 
+                time: "17:00 - 18:00", 
+                fullName: "Trần Thị B", 
+                email: "b@gmail.com", 
+                userId: 'user123', 
+                status: 'Chưa', 
+                createdAt: new Date().toISOString().split('T')[0],
+                updatedAt: new Date().toISOString().split('T')[0]
+            },
         ];
         localStorage.setItem('bookings', JSON.stringify(sampleBookings));
     }
