@@ -1,14 +1,14 @@
+let isLoggedIn = false;
 let isEditing = false;
 let editingIndex = null;
-let isLoggedIn = false;
+
+document.addEventListener("DOMContentLoaded", () => {
+    renderBookings();
+});
 
 function getCurrentUserId() {
-    return isLoggedIn ? 'user123' : 'guest';
-}
-
-function validateEmail(email) {
-    const regex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
-    return regex.test(email);
+    const user = JSON.parse(localStorage.getItem("currentUser"));
+    return user ? user.id : null;
 }
 
 document.querySelectorAll('nav a').forEach(link => {
@@ -23,7 +23,8 @@ document.querySelectorAll('nav a').forEach(link => {
     });
 });
 
-function openBookingForm(booking = null, index = null) {
+
+function openBookingForm(booking = null, index = null, preSelectedClass = null) {
     isEditing = booking ? true : false;
     editingIndex = index;
 
@@ -77,13 +78,15 @@ function openBookingForm(booking = null, index = null) {
     const div = document.createElement('div');
     div.innerHTML = modalHTML;
     document.body.appendChild(div);
-
+    const classSelect = document.getElementById('classSelect');
     if (isEditing && booking) {
-        document.getElementById('classSelect').value = booking.class;
+        classSelect.value = booking.class;
         document.getElementById('dateInput').value = booking.date;
         document.getElementById('timeSelect').value = booking.time;
         document.getElementById('fullName').value = booking.fullName;
         document.getElementById('emailInput').value = booking.email;
+    } else if (preSelectedClass) {
+        classSelect.value = preSelectedClass;
     }
 
     document.getElementById('bookingForm').addEventListener('submit', saveBooking);
@@ -105,57 +108,58 @@ function showError(message) {
 function saveBooking(e) {
     e.preventDefault();
 
+    const userId = getCurrentUserId();
+    if (!userId) {
+        showError("Bạn cần đăng nhập để đặt lịch!");
+        return;
+    }
+
+    let userBookings = JSON.parse(localStorage.getItem(`bookings_${userId}`)) || [];
+    const now = new Date().toISOString();
+
     const newBooking = {
         class: document.getElementById('classSelect').value,
         date: document.getElementById('dateInput').value,
         time: document.getElementById('timeSelect').value,
         fullName: document.getElementById('fullName').value.trim(),
         email: document.getElementById('emailInput').value.trim(),
-        status: `chưa`,
+        status: `Chưa xong`,
     };
-
-    if (!newBooking.createdAt) {
-        newBooking.createdAt = new Date().toISOString().split('T')[0];
-    }
-
-    newBooking.updatedAt = new Date().toISOString().split('T')[0];
 
     if (!newBooking.class || !newBooking.date || !newBooking.time || !newBooking.fullName || !newBooking.email) {
         showError("Vui lòng điền đầy đủ thông tin!");
         return;
     }
 
-    let bookings = JSON.parse(localStorage.getItem('bookings')) || [];
-
-    if (!isEditing && bookings.some(b => b.class === newBooking.class && b.date === newBooking.date && b.time === newBooking.time && b.email === newBooking.email)) {
-        showError("Lịch tập này đã tồn tại!");
-        return;
-    }
-
     if (isEditing) {
-        bookings[editingIndex] = newBooking;
+        const existingBooking = userBookings[editingIndex];
+        newBooking.createdAt = existingBooking.createdAt || now;
+        newBooking.updatedAt = now;
+        userBookings[editingIndex] = newBooking;
     } else {
-        bookings.push(newBooking);
+        newBooking.createdAt = now;
+        newBooking.updatedAt = now;
+        userBookings.push(newBooking);
     }
 
-    localStorage.setItem('bookings', JSON.stringify(bookings));
-
+    localStorage.setItem(`bookings_${userId}`, JSON.stringify(userBookings));
     loadBookings();
     closeBookingForm();
 }
 
-
-function generateUniqueId() {
-    return 'bk_' + Date.now().toString(36) + Math.random().toString(36).substr(2, 5);
-}
-
 function loadBookings() {
+    const userId = getCurrentUserId();
+    if (!userId) {
+        showError("Bạn cần đăng nhập để xem lịch đặt!");
+        return;
+    }
+
     const bookingList = document.getElementById('bookingList');
     bookingList.innerHTML = '';
 
-    const bookings = JSON.parse(localStorage.getItem('bookings')) || [];
+    const userBookings = JSON.parse(localStorage.getItem(`bookings_${userId}`)) || [];
 
-    bookings.forEach((booking, index) => {
+    userBookings.forEach((booking, index) => {
         const createdAt = booking.createdAt ? booking.createdAt.split('T')[0] : '';
         const updatedAt = booking.updatedAt ? booking.updatedAt.split('T')[0] : '';
 
@@ -179,11 +183,12 @@ function loadBookings() {
 }
 
 
-
 function editBooking(index) {
-    const bookings = JSON.parse(localStorage.getItem('bookings')) || [];
+    const userId = getCurrentUserId();
+    const bookings = JSON.parse(localStorage.getItem(`bookings_${userId}`)) || [];
     openBookingForm(bookings[index], index);
 }
+
 
 function confirmDeleteBooking(index) {
     const confirmHTML = `
@@ -202,50 +207,29 @@ function confirmDeleteBooking(index) {
     document.body.appendChild(div);
 }
 
+
 function closeConfirmModal() {
     const modal = document.getElementById('confirmModal');
     if (modal) modal.parentElement.removeChild(modal);
 }
 
 function deleteBooking(index) {
-    let bookings = JSON.parse(localStorage.getItem('bookings')) || [];
+    const userId = getCurrentUserId();
+    const bookings = JSON.parse(localStorage.getItem(`bookings_${userId}`)) || [];
     bookings.splice(index, 1);
-    localStorage.setItem('bookings', JSON.stringify(bookings));
+    localStorage.setItem(`bookings_${userId}`, JSON.stringify(bookings));
     loadBookings();
     closeConfirmModal();
 }
 
-function createSampleData() {
-    if (!localStorage.getItem('bookings')) {
-        const sampleBookings = [
-            { 
-                class: "Gym", 
-                date: "2025-05-01", 
-                time: "06:00 - 07:00", 
-                fullName: "Nguyễn Văn A", 
-                email: "a@gmail.com", 
-                userId: 'user123', 
-                status: 'Chưa', 
-                createdAt: new Date().toISOString().split('T')[0],
-                updatedAt: new Date().toISOString().split('T')[0] 
-            },
-            { 
-                class: "Yoga", 
-                date: "2025-05-02", 
-                time: "17:00 - 18:00", 
-                fullName: "Trần Thị B", 
-                email: "b@gmail.com", 
-                userId: 'user123', 
-                status: 'Chưa', 
-                createdAt: new Date().toISOString().split('T')[0],
-                updatedAt: new Date().toISOString().split('T')[0]
-            },
-        ];
-        localStorage.setItem('bookings', JSON.stringify(sampleBookings));
+function renderBookings() {
+    const userId = getCurrentUserId();
+    if (userId) {
+        document.getElementById('userProfile').style.display = 'block';
+        loadBookings();
+    } else {
+        document.getElementById('userProfile').style.display = 'none';
     }
 }
 
-window.addEventListener('DOMContentLoaded', () => {
-    createSampleData();
-    loadBookings();
-});
+loadBookings();

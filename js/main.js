@@ -118,7 +118,6 @@ function login(e) {
     e.preventDefault();
     let email = e.target.email.value;
     let password = e.target.password.value;
-    console.log(email);
 
     document.querySelector(".errorLoginEmail").textContent = ``;
     document.querySelector(".errorLoginPass").textContent = ``;
@@ -148,16 +147,23 @@ function login(e) {
             document.querySelector(".errorLoginPass").textContent = `Mật khẩu không chính xác`;
             return;
         }
+
         localStorage.setItem("currentUser", JSON.stringify(user));
         localStorage.setItem("isLoggedIn", "true");
+
         if (user.role === "Admin") {
             localStorage.setItem("isAdmin", "true");
         }
-            alert("Đăng nhập thành công!");
-            window.location.assign("http://127.0.0.1:5500/index.html");
-        
+
+        if (!localStorage.getItem(`bookings_${user.id}`)) {
+            localStorage.setItem(`bookings_${user.id}`, JSON.stringify([]));
+        }
+
+        alert("Đăng nhập thành công!");
+        window.location.assign('/index.html');
     }
 }
+
 window.addEventListener("DOMContentLoaded", () => {
     const isAdmin = localStorage.getItem("isAdmin");
     const adminBtn = document.getElementById("adminBtn");

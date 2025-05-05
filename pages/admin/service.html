@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8" />
+  <title>Quản lý Dịch vụ</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+  <script src="/js/authGuard.js"></script>
+</head>
+<body class="flex min-h-screen bg-gray-100">
+
+  <aside class="w-64 bg-gray-900 text-white flex flex-col p-4">
+    <h2 class="text-xl font-bold mb-6">Admin Dashboard</h2>
+    <nav class="flex flex-col space-y-2">
+      <a href="./dashboard.html" class="px-3 py-2 rounded hover:bg-gray-800">Quản lý lịch</a>
+      <a href="./service.html" class="px-3 py-2 rounded bg-gray-800">Quản lý dịch vụ</a>
+      <a href="/index.html" class="px-3 py-2 rounded hover:bg-gray-800">Trang chủ</a>
+      <a href="#" class="px-3 py-2 rounded text-red-400 hover:text-red-600">Đăng xuất</a>
+    </nav>
+  </aside>
+
+  <main class="flex-1 p-6">
+    <div class="flex justify-between items-center mb-6">
+      <h1 class="text-2xl font-bold">Quản lý Dịch vụ</h1>
+      <button class="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600">Thêm dịch vụ mới</button>
+    </div>
+    <div class="bg-white shadow rounded overflow-hidden">
+      <table class="min-w-full">
+        <thead class="bg-gray-100 text-gray-700">
+          <tr>
+            <th class="text-left px-6 py-3 border-b">Tên dịch vụ</th>
+            <th class="text-left px-6 py-3 border-b">Mô tả</th>
+            <th class="text-left px-6 py-3 border-b">Hình ảnh</th>
+            <th class="text-left px-6 py-3 border-b">Thao tác</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td class="px-6 py-4 border-b">Ai bíc</td>
+            <td class="px-6 py-4 border-b">Tập gym thể dục thể thao</td>
+            <td class="px-6 py-4 border-b">
+              <img src="" class="w-20 rounded" alt="Hình dịch zụ" />
+            </td>
+            <td class="px-6 py-4 border-b space-x-2">
+              <button class="text-yellow-600 hover:underline">Sửa</button>
+              <button class="text-red-600 hover:underline">Xóa</button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </main>
+
+</body>
+</html>
