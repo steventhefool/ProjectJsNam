@@ -58,10 +58,8 @@ function renderTable(page) {
         tableBody.appendChild(row);
     });
 
-    document.getElementById('pageNumber').textContent = page;
+    document.getElementById('paginationNumbers').textContent = page;
 }
-
-
 
 
 document.getElementById('nextPage').addEventListener('click', () => {
@@ -78,8 +76,47 @@ document.getElementById('prevPage').addEventListener('click', () => {
         renderTable(currentPage);
     }
 });
+const paginationNumbers = document.getElementById("paginationNumbers");
 
+function getTotalPages() {
+    return Math.ceil(getAllBookingsForAdmin().length / recordsPerPage);
+}
+
+function updatePagination() {
+    paginationNumbers.innerHTML = "";
+    const totalPages = getTotalPages();
+    console.log("Tổng số trang:", totalPages);
+    for (let i = 1; i <= totalPages; i++) {
+        const btn = document.createElement("button");
+        btn.textContent = i;
+        btn.className = `px-3 py-1 border rounded ${i === currentPage ? "bg-blue-500 text-white" : ""}`;
+        btn.addEventListener("click", () => {
+            currentPage = i;
+            renderTable(currentPage);
+            updatePagination();
+        });
+        paginationNumbers.appendChild(btn);
+    }
+}
 renderTable(currentPage);
+updatePagination();
+document.getElementById("prevPage").addEventListener("click", () => {
+    if (currentPage > 1) {
+        currentPage--;
+        renderTable(currentPage);
+        updatePagination();
+    }
+});
+
+document.getElementById("nextPage").addEventListener("click", () => {
+    if (currentPage < getTotalPages()) {
+        currentPage++;
+        renderTable(currentPage);
+        updatePagination();
+    }
+});
+
+
 function getAllBookingsForAdmin() {
     const bookings = [];
     for (let key in localStorage) {
