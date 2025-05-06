@@ -196,3 +196,22 @@ function renderBookings() {
     });
 }
 
+document.addEventListener("DOMContentLoaded", () => {
+    const services = JSON.parse(localStorage.getItem("services")) || [];
+    const serviceCardsContainer = document.getElementById("serviceCards");
+
+    services.forEach(service => {
+        const card = document.createElement("div");
+        card.className = "col mx-auto";
+        card.innerHTML = `
+        <div class="card h-100">
+          <img src="${service.image}" class="card-img-top" alt="${service.name}">
+          <div class="card-body">
+            <h5 class="card-title">${service.name}</h5>
+            <p class="card-text">${service.description}</p>
+          </div>
+        </div>
+      `;
+        serviceCardsContainer.appendChild(card);
+    });
+});

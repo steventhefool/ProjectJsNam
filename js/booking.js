@@ -37,12 +37,7 @@ function openBookingForm(booking = null, index = null, preSelectedClass = null) 
 
                 <div style="margin-bottom:1rem;">
                     <label>Lớp học</label><br>
-                    <select id="classSelect" required style="width:100%;padding:0.5rem;margin-top:0.5rem;">
-                        <option value="">Chọn lớp học</option>
-                        <option value="Gym">Gym</option>
-                        <option value="Yoga">Yoga</option>
-                        <option value="Zumba">Zumba</option>
-                    </select>
+                    <select id="classSelect" required style="width:100%;padding:0.5rem;margin-top:0.5rem;"></select>
                 </div>
                 <div style="margin-bottom:1rem;">
                     <label>Ngày tập</label><br>
@@ -78,7 +73,13 @@ function openBookingForm(booking = null, index = null, preSelectedClass = null) 
     const div = document.createElement('div');
     div.innerHTML = modalHTML;
     document.body.appendChild(div);
+
+
+    const services = JSON.parse(localStorage.getItem("services")) || [];
     const classSelect = document.getElementById('classSelect');
+    classSelect.innerHTML = `<option value="">Chọn lớp học</option>` + 
+        services.map(s => `<option value="${s.name}">${s.name}</option>`).join("");
+
     if (isEditing && booking) {
         classSelect.value = booking.class;
         document.getElementById('dateInput').value = booking.date;

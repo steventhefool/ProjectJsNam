@@ -15,14 +15,14 @@
       <a href="./dashboard.html" class="px-3 py-2 rounded hover:bg-gray-800">Quản lý lịch</a>
       <a href="./service.html" class="px-3 py-2 rounded bg-gray-800">Quản lý dịch vụ</a>
       <a href="/index.html" class="px-3 py-2 rounded hover:bg-gray-800">Trang chủ</a>
-      <a href="#" class="px-3 py-2 rounded text-red-400 hover:text-red-600">Đăng xuất</a>
+      <a id="logoutBtn" class="px-3 py-2 rounded text-red-400 hover:text-red-600">Đăng xuất</a>
     </nav>
   </aside>
 
   <main class="flex-1 p-6">
     <div class="flex justify-between items-center mb-6">
       <h1 class="text-2xl font-bold">Quản lý Dịch vụ</h1>
-      <button class="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600">Thêm dịch vụ mới</button>
+      <button id="addServiceBtn" class="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600">Thêm dịch vụ mới</button>
     </div>
     <div class="bg-white shadow rounded overflow-hidden">
       <table class="min-w-full">
@@ -34,22 +34,36 @@
             <th class="text-left px-6 py-3 border-b">Thao tác</th>
           </tr>
         </thead>
-        <tbody>
-          <tr>
-            <td class="px-6 py-4 border-b">Ai bíc</td>
-            <td class="px-6 py-4 border-b">Tập gym thể dục thể thao</td>
-            <td class="px-6 py-4 border-b">
-              <img src="" class="w-20 rounded" alt="Hình dịch zụ" />
-            </td>
-            <td class="px-6 py-4 border-b space-x-2">
-              <button class="text-yellow-600 hover:underline">Sửa</button>
-              <button class="text-red-600 hover:underline">Xóa</button>
-            </td>
-          </tr>
+        <tbody id="serviceTableBody">
+
         </tbody>
       </table>
     </div>
   </main>
 
+  <div id="modal" class="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 hidden">
+    <div class="bg-white p-6 rounded w-full max-w-md">
+      <h2 class="text-xl font-semibold mb-4" id="modalTitle">Thêm dịch vụ</h2>
+      <input type="text" id="serviceName" placeholder="Tên dịch vụ" class="w-full mb-4 p-2 border rounded" />
+      <textarea id="serviceDesc" placeholder="Mô tả" class="w-full mb-4 p-2 border rounded"></textarea>
+      <input type="file" id="serviceImageFile" accept="image/*" class="w-full mb-4 p-2 border rounded" />
+      <img id="previewImage" class="mb-4 w-24 hidden" />
+      <div class="flex justify-end space-x-2">
+        <button id="cancelBtn" class="px-4 py-2 bg-gray-300 rounded">Hủy</button>
+        <button id="saveBtn" class="px-4 py-2 bg-blue-500 text-white rounded">Lưu</button>
+      </div>
+    </div>
+  </div>
+
+  <script src="/js/service.js"></script>
+  <script>
+    document.getElementById('logoutBtn').addEventListener('click', function (e) {
+      e.preventDefault();
+      localStorage.removeItem("currentUser");
+      localStorage.removeItem("isLoggedIn");
+      localStorage.removeItem("isAdmin");
+      window.location.href = '/pages/auth/login.html';
+    });
+  </script>
 </body>
 </html>

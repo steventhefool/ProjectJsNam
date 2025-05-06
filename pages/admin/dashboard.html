@@ -6,7 +6,6 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Admin Dashboard</title>
   <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
-  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
   <script src="/js/authGuard.js"></script>
 </head>
 
@@ -19,7 +18,7 @@
         <a href="./dashboard.html" class="bg-gray-700 p-2 rounded">Quản lý lịch</a>
         <a href="./service.html" class="hover:bg-gray-700 p-2 rounded">Quản lý dịch vụ</a>
         <a href="/index.html" class="hover:bg-gray-700 p-2 rounded">Trang chủ</a>
-        <a href="#" class="text-red-400 hover:text-red-600 mt-4">Đăng xuất</a>
+        <a href="" id="logoutBtn" class="text-red-400 hover:text-red-600 mt-4">Đăng xuất</a>
       </nav>
     </aside>
 
@@ -60,15 +59,15 @@
           </div>
           <div>
             <label class="block mb-1 text-sm font-medium">Email</label>
-            <input type="email" id="filterEmail" placeholder="Tìm theo email"
-              class="w-full border rounded px-3 py-2" />
+            <input type="email" id="filterEmail" placeholder="Tìm theo email" class="w-full border rounded px-3 py-2" />
           </div>
           <div>
             <label class="block mb-1 text-sm font-medium">Ngày</label>
             <input type="date" id="filterDate" class="w-full border rounded px-3 py-2" />
           </div>
           <div class="flex items-end">
-            <button id="filterBtn" style="border: 10px; background-color: blue; color: white; width: 10em; height: 2.5em;">Lọc</button>
+            <button id="filterBtn"
+              style="border: 10px; background-color: blue; color: white; width: 10em; height: 2.5em;">Lọc</button>
           </div>
         </div>
 
@@ -85,87 +84,41 @@
               </tr>
             </thead>
             <tbody id="scheduleTable">
-              <tr class="hover:bg-gray-50">
+              <!-- <tr class="hover:bg-gray-50">
                 <td class="px-4 py-3 border-b">Yoga</td>
                 <td class="px-4 py-3 border-b">2025-05-02</td>
                 <td class="px-4 py-3 border-b">14:00 - 16:00</td>
                 <td class="px-4 py-3 border-b">NGUYEN THANH BINH PHUOC</td>
                 <td class="px-4 py-3 border-b">tieucamieu@gmail.com</td>
                 <td class="px-4 py-3 border-b text-blue-600">
-                  <a href="#" class="mr-2 hover:underline">Sửa</a>
-                  <a href="#" class="text-red-500 hover:underline">Xóa</a>
+                  <a href="" class="mr-2 hover:underline">Sửa</a>
+                  <a href="" class="text-red-500 hover:underline">Xóa</a>
                 </td>
-              </tr>
-              <tr class="hover:bg-gray-50">
-                <td class="px-4 py-3 border-b">Yoga</td>
-                <td class="px-4 py-3 border-b">2025-05-02</td>
-                <td class="px-4 py-3 border-b">14:00 - 16:00</td>
-                <td class="px-4 py-3 border-b">NGUYEN THANH BINH PHUOC</td>
-                <td class="px-4 py-3 border-b">tieucamieu@gmail.com</td>
-                <td class="px-4 py-3 border-b text-blue-600">
-                  <a href="#" class="mr-2 hover:underline">Sửa</a>
-                  <a href="#" class="text-red-500 hover:underline">Xóa</a>
-                </td>
-              </tr>
-              <tr class="hover:bg-gray-50">
-                <td class="px-4 py-3 border-b">Yoga</td>
-                <td class="px-4 py-3 border-b">2025-05-02</td>
-                <td class="px-4 py-3 border-b">14:00 - 16:00</td>
-                <td class="px-4 py-3 border-b">NGUYEN THANH BINH PHUOC</td>
-                <td class="px-4 py-3 border-b">tieucamieu@gmail.com</td>
-                <td class="px-4 py-3 border-b text-blue-600">
-                  <a href="#" class="mr-2 hover:underline">Sửa</a>
-                  <a href="#" class="text-red-500 hover:underline">Xóa</a>
-                </td>
-              </tr>
-              <tr class="hover:bg-gray-50">
-                <td class="px-4 py-3 border-b">Gym</td>
-                <td class="px-4 py-3 border-b">2025-05-02</td>
-                <td class="px-4 py-3 border-b">14:00 - 16:00</td>
-                <td class="px-4 py-3 border-b">NGUYEN THANH BINH PHUOC</td>
-                <td class="px-4 py-3 border-b">tieucamieu@gmail.com</td>
-                <td class="px-4 py-3 border-b text-blue-600">
-                  <a href="#" class="mr-2 hover:underline">Sửa</a>
-                  <a href="#" class="text-red-500 hover:underline">Xóa</a>
-                </td>
-              </tr>
+              </tr> -->
             </tbody>
           </table>
         </div>
 
         <div class="flex justify-center mt-4">
-            <button id="prevPage" class="px-3 py-1 border rounded mx-1">Trang trước</button>
-            <span id="pageNumber" class="px-3 py-1">1</span>
-            <button id="nextPage" class="px-3 py-1 border rounded mx-1">Trang tiếp theo</button>
-          </div>
+          <button id="prevPage" class="px-3 py-1 border rounded mx-1">Trang trước</button>
+          <span id="pageNumber" class="px-3 py-1">1</span>
+          <button id="nextPage" class="px-3 py-1 border rounded mx-1">Trang tiếp theo</button>
+        </div>
       </div>
     </main>
   </div>
+
+  <script src="/js/admin.js"></script>
+
   <script>
-    const ctx = document.getElementById('classChart').getContext('2d');
-    new Chart(ctx, {
-      type: 'bar',
-      data: {
-        labels: ['Gym', 'Yoga', 'Zumba'],
-        datasets: [{
-          label: 'Số lượng lịch đặt',
-          data: [1, 0, 0],
-          backgroundColor: ['#93c5fd', '#86efac', '#c4b5fd']
-        }]
-      },
-      options: {
-        scales: {
-          y: {
-            beginAtZero: true,
-            precision: 0
-          }
-        }
-      }
+    document.getElementById('logoutBtn').addEventListener('click', function (e) {
+      e.preventDefault();
+      localStorage.removeItem("currentUser");
+      localStorage.removeItem("isLoggedIn");
+      localStorage.removeItem("isAdmin");
+      window.location.href = '/pages/auth/login.html';
     });
   </script>
-    <script src="/js/admin.js"></script>
-
-
 </body>
 
 </html>
