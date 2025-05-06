@@ -1,21 +1,25 @@
-let services = JSON.parse(localStorage.getItem("services")) || [
-    {
-        name: "Gym",
-        description: "Dịch vụ tập thể hình chuyên nghiệp",
-        image: ""
-    },
-    {
-        name: "Yoga",
-        description: "Thư giãn cơ thể với yoga",
-        image: ""
-    },
-    {
-        name: "Zumba",
-        description: "Nhảy thể thao trên nền nhạc Latinh",
-        image: ""
-    }
+let services = JSON.parse(localStorage.getItem("services"));
 
-];
+if (!services) {
+  services = [
+    {
+      name: "Gym",
+      description: "Dịch vụ tập thể hình chuyên nghiệp",
+      image: "/img/Gym.jpg"
+    },
+    {
+      name: "Yoga",
+      description: "Thư giãn cơ thể với yoga",
+      image: "/img/Yoga.jpg"
+    },
+    {
+      name: "Zumba",
+      description: "Nhảy thể thao trên nền nhạc Latinh",
+      image: "/img/Zumba.jpg"
+    }
+  ];
+  localStorage.setItem("services", JSON.stringify(services));
+}
 localStorage.setItem("services", JSON.stringify(services));
 
 const serviceTableBody = document.getElementById("serviceTableBody");
@@ -25,6 +29,20 @@ const serviceName = document.getElementById("serviceName");
 const serviceDesc = document.getElementById("serviceDesc");
 const serviceImageFile = document.getElementById("serviceImageFile");
 const previewImage = document.getElementById("previewImage");
+serviceImageFile.addEventListener("change", () => {
+    const file = serviceImageFile.files[0];
+    if (file) {
+      const reader = new FileReader();
+      reader.onload = (e) => {
+        previewImage.src = e.target.result;
+        previewImage.classList.remove("hidden");
+      };
+      reader.readAsDataURL(file);
+    } else {
+      previewImage.classList.add("hidden");
+      previewImage.src = "";
+    }
+  });
 const saveBtn = document.getElementById("saveBtn");
 const cancelBtn = document.getElementById("cancelBtn");
 const addServiceBtn = document.getElementById("addServiceBtn");

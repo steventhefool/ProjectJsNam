@@ -209,6 +209,7 @@ document.addEventListener("DOMContentLoaded", () => {
           <div class="card-body">
             <h5 class="card-title">${service.name}</h5>
             <p class="card-text">${service.description}</p>
+            <a href="/pages/booking/schedule.html" class="btn btn-primary mt-2">Đặt lịch</a>
           </div>
         </div>
       `;
