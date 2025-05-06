@@ -100,22 +100,6 @@ function updatePagination() {
 }
 renderTable(currentPage);
 updatePagination();
-document.getElementById("prevPage").addEventListener("click", () => {
-    if (currentPage > 1) {
-        currentPage--;
-        renderTable(currentPage);
-        updatePagination();
-    }
-});
-
-document.getElementById("nextPage").addEventListener("click", () => {
-    if (currentPage < getTotalPages()) {
-        currentPage++;
-        renderTable(currentPage);
-        updatePagination();
-    }
-});
-
 
 function getAllBookingsForAdmin() {
     const bookings = [];
