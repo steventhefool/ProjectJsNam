@@ -30,44 +30,51 @@ function openBookingForm(booking = null, index = null, preSelectedClass = null) 
 
     const modalHTML = `
     <div id="bookingModal" style="position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(0,0,0,0.5);display:flex;justify-content:center;align-items:center;z-index:1000;">
-        <div style="background:white;padding:2rem;border-radius:8px;width:340px;position:relative;">
-            <h3>${isEditing ? 'Sửa lịch tập' : 'Đặt lịch mới'}</h3>
-            <form id="bookingForm">
-                <div id="errorBox" style="color:red;margin-bottom:1rem;"></div>
+            <div style="background:white;padding:2rem 2rem 1.5rem;border-radius:8px;width:320px;">
+                <h2 style="margin-bottom:1.5rem;font-size:20px;font-weight:600;">${isEditing ? 'Sửa lịch tập' : 'Đặt lịch mới'}</h2>
+                <form id="bookingForm">
+                    <div id="errorBox" style="color:red;margin-bottom:1rem;"></div>
 
-                <div style="margin-bottom:1rem;">
-                    <label>Lớp học</label><br>
-                    <select id="classSelect" required style="width:100%;padding:0.5rem;margin-top:0.5rem;"></select>
-                </div>
-                <div style="margin-bottom:1rem;">
-                    <label>Ngày tập</label><br>
-                    <input type="date" id="dateInput" required style="width:100%;padding:0.5rem;margin-top:0.5rem;">
-                </div>
-                <div style="margin-bottom:1rem;">
-                    <label>Khung giờ</label><br>
-                    <select id="timeSelect" required style="width:100%;padding:0.5rem;margin-top:0.5rem;">
-                        <option value="">Chọn khung giờ</option>
-                        <option value="06:00 - 07:00">06:00 - 07:00</option>
-                        <option value="07:00 - 08:00">07:00 - 08:00</option>
-                        <option value="17:00 - 18:00">17:00 - 18:00</option>
-                        <option value="18:00 - 19:00">18:00 - 19:00</option>
-                    </select>
-                </div>
-                <div style="margin-bottom:1rem;">
-                    <label>Họ tên</label><br>
-                    <input type="text" id="fullName" required style="width:100%;padding:0.5rem;margin-top:0.5rem;">
-                </div>
-                <div style="margin-bottom:1rem;">
-                    <label>Email</label><br>
-                    <input type="email" id="emailInput" required style="width:100%;padding:0.5rem;margin-top:0.5rem;">
-                </div>
-                <div style="display:flex;justify-content:end;gap:1rem;">
-                    <button type="button" onclick="closeBookingForm()" style="background:#6b7280;color:white;padding:0.5rem 1rem;border:none;border-radius:5px;">Hủy</button>
-                    <button type="submit" style="background:#3b82f6;color:white;padding:0.5rem 1rem;border:none;border-radius:5px;">${isEditing ? 'Cập nhật' : 'Lưu'}</button>
-                </div>
-            </form>
+                    <div style="margin-bottom:1.2rem;">
+                        <label style="font-weight:500;">Lớp học</label>
+                        <select id="classSelect" required style="width:100%;padding:0.5rem;margin-top:0.3rem;border:1px solid #ccc;border-radius:4px;">
+                            <option value="">Chọn lớp học</option>
+                        </select>
+                    </div>
+
+                    <div style="margin-bottom:1.2rem;">
+                        <label style="font-weight:500;">Ngày tập</label>
+                        <input type="date" id="dateInput" required style="width:100%;padding:0.5rem;margin-top:0.3rem;border:1px solid #ccc;border-radius:4px;">
+                    </div>
+
+                    <div style="margin-bottom:1.2rem;">
+                        <label style="font-weight:500;">Khung giờ</label>
+                        <select id="timeSelect" required style="width:100%;padding:0.5rem;margin-top:0.3rem;border:1px solid #ccc;border-radius:4px;">
+                            <option value="">Chọn khung giờ</option>
+                            <option value="06:00 - 07:00">06:00 - 07:00</option>
+                            <option value="07:00 - 08:00">07:00 - 08:00</option>
+                            <option value="17:00 - 18:00">17:00 - 18:00</option>
+                            <option value="18:00 - 19:00">18:00 - 19:00</option>
+                        </select>
+                    </div>
+
+                    <div style="margin-bottom:1.2rem;">
+                        <label style="font-weight:500;">Họ tên</label>
+                        <input type="text" id="fullName" required style="width:100%;padding:0.5rem;margin-top:0.3rem;border:1px solid #ccc;border-radius:4px;">
+                    </div>
+
+                    <div style="margin-bottom:1.2rem;">
+                        <label style="font-weight:500;">Email</label>
+                        <input type="email" id="emailInput" required style="width:100%;padding:0.5rem;margin-top:0.3rem;border:1px solid #ccc;border-radius:4px;">
+                    </div>
+
+                    <div style="display:flex;justify-content:flex-end;gap:0.5rem;margin-top:1.5rem;">
+                        <button type="button" onclick="closeBookingForm()" style="background:#6b7280;color:white;padding:0.5rem 1.2rem;border:none;border-radius:4px;">Hủy</button>
+                        <button type="submit" style="background:#3b82f6;color:white;padding:0.5rem 1.2rem;border:none;border-radius:4px;">${isEditing ? 'Cập nhật' : 'Lưu'}</button>
+                    </div>
+                </form>
+            </div>
         </div>
-    </div>
     `;
 
     const div = document.createElement('div');

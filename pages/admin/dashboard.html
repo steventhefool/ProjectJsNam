@@ -6,6 +6,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Admin Dashboard</title>
   <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
   <script src="/js/authGuard.js"></script>
 </head>
 
@@ -25,23 +26,12 @@
     <main class="flex-1 bg-gray-100 text-gray-900 p-6">
       <h1 class="text-2xl font-bold mb-6">Thống kê lịch tập</h1>
 
-      <div class="grid grid-cols-3 gap-4 mb-8">
-        <div class="bg-white p-4 rounded shadow text-center">
-          <p class="text-gray-500">Tổng số lịch Gym</p>
-          <p class="text-2xl font-bold text-blue-600" id="gymCount">0</p>
-        </div>
-        <div class="bg-white p-4 rounded shadow text-center">
-          <p class="text-gray-500">Tổng số lịch Yoga</p>
-          <p class="text-2xl font-bold text-green-600" id="yogaCount">0</p>
-        </div>
-        <div class="bg-white p-4 rounded shadow text-center">
-          <p class="text-gray-500">Tổng số lịch Zumba</p>
-          <p class="text-2xl font-bold text-purple-600" id="zumbaCount">0</p>
-        </div>
+      <div class="grid grid-cols-3 gap-4 mb-8" id="statsContainer">
+        <!-- Fill dữ liệu tự động từ js (Ngày cuối nhớ hoàn thành) -->
       </div>
 
       <div class="bg-white p-4 rounded shadow">
-        <canvas id="classChart" height="100"></canvas>
+        <canvas id="classChart" width="400" height="200"></canvas>
       </div>
 
       <div class="bg-white p-6 mt-8 rounded shadow">
@@ -107,7 +97,7 @@
       </div>
     </main>
   </div>
-
+  
   <script src="/js/admin.js"></script>
 
   <script>
