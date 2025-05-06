@@ -4,14 +4,12 @@ const filterDate = document.getElementById("filterDate");
 const filterBtn = document.getElementById("filterBtn");
 const tableBody = document.getElementById("scheduleTable");
 
-filterBtn.addEventListener("click", filterTable);
-
 function filterTable() {
     const selectedClass = filterClass.value.toLowerCase();
     const inputEmail = filterEmail.value.toLowerCase();
     const inputDate = filterDate.value;
 
-    const rows = tableBody.querySelectorAll("tr");
+    const rows = document.querySelectorAll("#scheduleTable tr");
 
     rows.forEach((row) => {
         const classCell = row.cells[0].textContent.toLowerCase();
@@ -20,7 +18,7 @@ function filterTable() {
 
         const matchClass = selectedClass === "tất cả" || classCell.includes(selectedClass);
         const matchEmail = inputEmail === "" || emailCell.includes(inputEmail);
-        const matchDate = inputDate === "" || dateCell === inputDate;
+        const matchDate = inputDate === "" || new Date(dateCell).toISOString().split('T')[0] === inputDate;
 
         row.style.display = (matchClass && matchEmail && matchDate) ? "" : "none";
     });
@@ -40,7 +38,23 @@ function renderTable(page) {
     const tableBody = document.getElementById('scheduleTable');
     tableBody.innerHTML = '';
 
-    paginatedData.forEach((record) => {
+    const filteredData = paginatedData.filter(record => {
+        const selectedClass = filterClass.value.toLowerCase();
+        const inputEmail = filterEmail.value.toLowerCase();
+        const inputDate = filterDate.value;
+
+        const classCell = record.class.toLowerCase();
+        const dateCell = record.date;
+        const emailCell = record.email.toLowerCase();
+
+        const matchClass = selectedClass === "tất cả" || classCell.includes(selectedClass);
+        const matchEmail = inputEmail === "" || emailCell.includes(inputEmail);
+        const matchDate = inputDate === "" || new Date(dateCell).toISOString().split('T')[0] === inputDate;
+
+        return matchClass && matchEmail && matchDate;
+    });
+
+    filteredData.forEach((record) => {
         const row = document.createElement('tr');
         row.classList.add('hover:bg-gray-50');
 
@@ -62,20 +76,6 @@ function renderTable(page) {
 }
 
 
-document.getElementById('nextPage').addEventListener('click', () => {
-    const totalPages = Math.ceil(scheduleData.length / recordsPerPage);
-    if (currentPage < totalPages) {
-        currentPage++;
-        renderTable(currentPage);
-    }
-});
-
-document.getElementById('prevPage').addEventListener('click', () => {
-    if (currentPage > 1) {
-        currentPage--;
-        renderTable(currentPage);
-    }
-});
 const paginationNumbers = document.getElementById("paginationNumbers");
 
 function getTotalPages() {
@@ -162,11 +162,24 @@ function confirmDeleteBookingAdmin(userId, index) {
 }
 function deleteBookingAdmin(userId, index) {
     const bookings = JSON.parse(localStorage.getItem(`bookings_${userId}`)) || [];
-    bookings.splice(index, 1);
+    bookings.splice(index, 1); 
     localStorage.setItem(`bookings_${userId}`, JSON.stringify(bookings));
+
     renderTable(currentPage);
+    updatePagination();
+
+    const totalPages = getTotalPages();
+    if (currentPage > totalPages) {
+        currentPage = totalPages;
+        renderTable(currentPage);
+        updatePagination();
+    }
+
     closeConfirmModal();
+
+    filterTable();
 }
+
 
 function openBookingFormAdmin(booking, index, userId) {
     isEditing = true;
